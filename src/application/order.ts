@@ -51,7 +51,7 @@ export const getOrder = async (
     if (!order) {
       throw new NotFoundError("Order not found");
     }
-    res.status(200).json(order);
+    res.status(200).json(order); // Sending the response
   } catch (error) {
     next(error);
   }
@@ -64,7 +64,7 @@ export const getOrders = async (
 ): Promise<void> => {
   try {
     const data = await Order.find().populate("items.product");
-    return res.status(200).json(data);
+    res.status(200).json(data); // Sending the response
   } catch (error) {
     next(error);
   }
