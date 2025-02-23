@@ -2,15 +2,15 @@ import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 import ValidationError from "../domain/errors/validation-error";
 import Order from "../infrastructure/schemas/Order";
-import { getAuth } from "@clerk/express";
 import NotFoundError from "../domain/errors/not-found-error";
 import Address from "../infrastructure/schemas/Address";
 import { CreateOrderDTO } from "../domain/dto/order";
+
 export const createOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const result = CreateOrderDTO.safeParse(req.body);
     if (!result.success) {
@@ -39,14 +39,14 @@ export const getOrder = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
     const id = req.params.userId;
     const order = await Order.findById(id).populate({
       path: "addressId",
       model: "Address",
     }).populate({
-      path:"items."
+      path: "items.product",
     });
     if (!order) {
       throw new NotFoundError("Order not found");
@@ -56,13 +56,13 @@ export const getOrder = async (
     next(error);
   }
 };
+
 export const getOrders = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<void> => {
   try {
-    
     const data = await Order.find().populate("items.product");
     return res.status(200).json(data);
   } catch (error) {
