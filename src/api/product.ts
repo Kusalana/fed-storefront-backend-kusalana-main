@@ -23,5 +23,5 @@ productRouter
   .patch(isAuthenticated, isAdmin, updateProduct);
 
   productRouter
-  .route("/update-inventory/:id")
-  .patch(isAuthenticated, updateInventory);
+  .route("/:id/update-inventory")
+  .patch(isAuthenticated, isAdmin, updateInventory);

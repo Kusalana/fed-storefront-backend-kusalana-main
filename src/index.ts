@@ -8,12 +8,15 @@ import { orderRouter } from "./api/order";
 import { paymentsRouter } from "./api/payment";
 import { productRouter } from "./api/product";
 import { connectDB } from "./infrastructure/db";
+import checkoutRouter from "./api/checkout";
+
 
 const app = express();
 
 app.use(cors({
   origin: "https://fed-storefront-frontend-kusalana.netlify.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  //origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT","PATCH", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
@@ -26,6 +29,8 @@ app.use("/api/orders", orderRouter);
 app.use("/api/payments", paymentsRouter);
 
 app.use(globalErrorHandlingMiddleware);
+app.use("/api/checkout", checkoutRouter);
+
 
 connectDB();
 const PORT = process.env.PORT || 8000;
