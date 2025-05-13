@@ -1,1 +1,1 @@
-https://github.com/Kusalana/fed-storefront-backend-kusalana-main
+https://github.com/Kusalana/fed-storefront-frontend-kusalana-main
